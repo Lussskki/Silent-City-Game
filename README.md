@@ -17,4 +17,18 @@ This project is a small game being developed in Godot Engine. The game does not 
 
 ![Environment filling in with tiles](Screenshots/2.png)
 
+![Character animation setup](Screenshots/3.png)
+
+This screenshot shows the current character animation list in Godot. There are nine animations configured for the player:
+
+- `Idle`: default standing pose.
+- `Walking`: normal horizontal movement.
+- `Running`: faster horizontal movement while holding run.
+- `Jump Start`: the start of the jump.
+- `Jump Looping`: the upward motion while still rising.
+- `Falling Down`: the falling animation after the peak of the jump.
+- `Slashing`: ground melee attack.
+- `Slashing In Air`: air melee attack.
+- `Sliding`: down/crouch movement animation.
+
 More details will be added as the project grows.
