@@ -15,6 +15,13 @@ var is_sliding = false
 func _ready():
 	sprite.animation_finished.connect(_on_animation_finished)
 
+	# ტაილების ფერდობი კიბესავით კვადრატებისგან შედგება (~51°).
+	# ამ პარამეტრებით პერსონაჟი კიბეს გლუვ ფერდობად აღიქვამს და
+	# საფეხურებზე აღარ ახტება ზემოთ-ქვემოთ.
+	floor_max_angle = deg_to_rad(60)   # ციცაბო კიბე „იატაკად" ჩაითვალოს
+	floor_snap_length = 80.0            # საფეხურებზე მიწებება, ჰაერში აღარ ახტეს
+	floor_constant_speed = true         # ფერდობზე სიჩქარე მუდმივი დარჩეს
+
 func _physics_process(delta):
 
 	# Gravity
@@ -65,7 +72,10 @@ func _physics_process(delta):
 			var angle = abs(rad_to_deg(get_floor_angle()))
 			if angle > SLIDE_ANGLE:
 				var normal = get_floor_normal()
-				var downhill = Vector2(normal.y, -normal.x).normalized()
+				var downhill = Vector2(normal.y, -normal.x)
+				if downhill.y < 0:
+					downhill = -downhill
+				downhill = downhill.normalized()
 				velocity.y = downhill.y * SLIDE_SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
@@ -82,7 +92,10 @@ func _physics_process(delta):
 			# თუ INPUT არ არის, downhill-ით სრიალი
 			if direction == 0:
 				var normal = get_floor_normal()
-				var downhill = Vector2(normal.y, -normal.x).normalized()
+				var downhill = Vector2(normal.y, -normal.x)
+				if downhill.y < 0:
+					downhill = -downhill
+				downhill = downhill.normalized()
 				velocity = downhill * SLIDE_SPEED
 			# თუ INPUT არის, INPUT-ით სრიალი
 		else:
