@@ -1,0 +1,75 @@
+[gd_scene load_steps=15 format=3 uid="uid://b23uposlagew"]
+
+[ext_resource type="Texture2D" uid="uid://48mp726pvokn" path="res://resources/input_textures/Default/xbox_dpad_left.png" id="1_left"]
+[ext_resource type="Texture2D" uid="uid://bsq6vcxnr4qce" path="res://resources/input_textures/Default/xbox_dpad_left_outline.png" id="2_left_pressed"]
+[ext_resource type="Texture2D" uid="uid://dk5d8p3rxglwi" path="res://resources/input_textures/Default/xbox_dpad_right.png" id="3_right"]
+[ext_resource type="Texture2D" uid="uid://c1sgperatv0xj" path="res://resources/input_textures/Default/xbox_dpad_right_outline.png" id="4_right_pressed"]
+[ext_resource type="Texture2D" uid="uid://cc55e2rq5yavy" path="res://resources/input_textures/Default/xbox_button_color_a.png" id="5_jump"]
+[ext_resource type="Texture2D" uid="uid://bp8bxljdvv36b" path="res://resources/input_textures/Default/xbox_button_color_a_outline.png" id="6_jump_pressed"]
+[ext_resource type="Texture2D" uid="uid://brohcmm7xq7nx" path="res://resources/input_textures/Default/xbox_button_color_x.png" id="7_attack"]
+[ext_resource type="Texture2D" uid="uid://dbn1t5f1ty57a" path="res://resources/input_textures/Default/xbox_button_color_x_outline.png" id="8_attack_pressed"]
+[ext_resource type="Texture2D" uid="uid://lyifveeanenc" path="res://resources/input_textures/Default/xbox_button_color_b.png" id="9_kick"]
+[ext_resource type="Texture2D" uid="uid://dnj0k70rdlbr8" path="res://resources/input_textures/Default/xbox_button_color_b_outline.png" id="10_kick_pressed"]
+[ext_resource type="Texture2D" uid="uid://e6b66mfpbrt" path="res://resources/input_textures/Default/xbox_button_color_y.png" id="11_throw"]
+[ext_resource type="Texture2D" uid="uid://bc1lltnd8fqef" path="res://resources/input_textures/Default/xbox_button_color_y_outline.png" id="12_throw_pressed"]
+[ext_resource type="Texture2D" uid="uid://ccwbek80ucpxc" path="res://resources/input_textures/Default/xbox_rt.png" id="13_run"]
+[ext_resource type="Texture2D" uid="uid://cn47ofcd2mvh1" path="res://resources/input_textures/Default/xbox_rt_outline.png" id="14_run_pressed"]
+
+[node name="MobileControls" type="CanvasLayer" unique_id=1573542207]
+layer = 20
+
+[node name="LeftMove" type="TouchScreenButton" parent="." unique_id=451779965]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(48, 470)
+scale = Vector2(1.45, 1.45)
+texture_normal = ExtResource("1_left")
+texture_pressed = ExtResource("2_left_pressed")
+action = "ui_left"
+
+[node name="RightMove" type="TouchScreenButton" parent="." unique_id=491996277]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(158, 470)
+scale = Vector2(1.45, 1.45)
+texture_normal = ExtResource("3_right")
+texture_pressed = ExtResource("4_right_pressed")
+action = "ui_right"
+
+[node name="Run" type="TouchScreenButton" parent="."]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(594, 354)
+scale = Vector2(1.25, 1.25)
+texture_normal = ExtResource("13_run")
+texture_pressed = ExtResource("14_run_pressed")
+action = "run"
+
+[node name="Throw" type="TouchScreenButton" parent="."]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(704, 352)
+scale = Vector2(1.25, 1.25)
+texture_normal = ExtResource("11_throw")
+texture_pressed = ExtResource("12_throw_pressed")
+action = "throw"
+
+[node name="Kick" type="TouchScreenButton" parent="."]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(814, 352)
+scale = Vector2(1.25, 1.25)
+texture_normal = ExtResource("9_kick")
+texture_pressed = ExtResource("10_kick_pressed")
+action = "kick"
+
+[node name="Attack" type="TouchScreenButton" parent="."]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(704, 466)
+scale = Vector2(1.25, 1.25)
+texture_normal = ExtResource("7_attack")
+texture_pressed = ExtResource("8_attack_pressed")
+action = "attack"
+
+[node name="Jump" type="TouchScreenButton" parent="."]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(814, 466)
+scale = Vector2(1.25, 1.25)
+texture_normal = ExtResource("5_jump")
+texture_pressed = ExtResource("6_jump_pressed")
+action = "ui_accept"
