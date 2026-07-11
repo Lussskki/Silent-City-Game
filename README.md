@@ -10,6 +10,7 @@ This project is a small game being developed in Godot Engine. The game does not 
 - Environment is being filled in gradually with tiles
 - Tile layout is not finished yet
 - After tiles are completed, character and animation work begins
+- Mobile controls are now available for Android testing
 
 ## Screenshots
 
@@ -30,5 +31,9 @@ This screenshot shows the current character animation list in Godot. There are n
 - `Slashing`: ground melee attack.
 - `Slashing In Air`: air melee attack.
 - `Sliding`: down/crouch movement animation.
+
+![Mobile controls using Xbox-style input textures](Screenshots/4.png)
+
+The mobile build includes on-screen controls using Xbox-style input textures. The left side controls movement, and the right side has run, throw, kick, attack, and jump buttons.
 
 More details will be added as the project grows.
