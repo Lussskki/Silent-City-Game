@@ -1,22 +1,41 @@
 # WIP Game Project
 
-This project is a small game being developed in Godot Engine. The game does not yet have an official name, and it is still a work in progress.
+This project is a small 2D platformer being developed in Godot Engine. The game does not yet have an official name, and it is still a work in progress.
 
 ## Current Status
 
-- WIP project
-- No official title yet
-- Early development stage
-- Environment is being filled in gradually with tiles
-- Tile layout is not finished yet
-- After tiles are completed, character and animation work begins
-- Mobile controls are now available for Android testing
+- WIP Godot platformer project.
+- Android/mobile testing is now supported.
+- Xbox-style on-screen mobile controls are available.
+- The player has movement, jump, run, attack, kick, throw, health, death, and restart behavior.
+- Enemies spawn around the level, use random character skins, chase the player, fight, and have 100 life.
+- Background music and character sound effects are now connected in-game.
+- Tile layout, level design, balance, and polish are still being improved.
+
+## Added Today
+
+- Added mobile controls using Xbox input textures.
+- Added background music from `resources/background_voice`.
+- Added character voices from `resources/character_voices`, including jump, run/step, attack, kick/hit, and throw sounds.
+- Added player life with a visible HUD starting at 100.
+- Added player death and scene restart when life reaches 0.
+- Added enemy characters from the `Characters` folder: Adventurer, Female, Player, Soldier, and Zombie.
+- Added random enemy spawning across different platform areas.
+- Added enemy health bars with 100 life.
+- Added enemy chase and attack behavior when the player is close.
+- Fixed the restart bug where enemies entering the kill zone could restart the game.
+- Fixed combat range so attacks only work when close and facing the enemy.
+- Built Android debug APKs for testing.
 
 ## Screenshots
 
 ![Current development screenshot](Screenshots/1.png)
 
+Early level view while the environment is being built.
+
 ![Environment filling in with tiles](Screenshots/2.png)
+
+More tiles and platform layout work in progress.
 
 ![Character animation setup](Screenshots/3.png)
 
@@ -35,5 +54,28 @@ This screenshot shows the current character animation list in Godot. There are n
 ![Mobile controls using Xbox-style input textures](Screenshots/4.png)
 
 The mobile build includes on-screen controls using Xbox-style input textures. The left side controls movement, and the right side has run, throw, kick, attack, and jump buttons.
+
+![Enemy combat and mobile HUD](Screenshots/5.png)
+
+This shows the player fighting an enemy in the mobile layout. The enemy has a red health bar, and the player life HUD is visible in the top-left corner.
+
+![Player life HUD](Screenshots/6.png)
+
+The player life display shows the current health value and a small health bar. It starts at 100 and decreases when enemies hit the player.
+
+## Audio
+
+The game now includes background music and character sound effects. Background music is played quietly during gameplay, while character sounds play for jump, running steps, attacks, kicks, and throwing.
+
+## Mobile Controls
+
+The Android/mobile version uses touch buttons:
+
+- Left side: move left and right.
+- Right side: run, throw, kick, attack, and jump.
+
+## Enemies
+
+Enemies are spawned randomly in different areas of the level. Each enemy uses one of the character skins from the `Characters` folder and has 100 life. When an enemy sees the player nearby, it moves toward the player and attacks only when close enough.
 
 More details will be added as the project grows.
