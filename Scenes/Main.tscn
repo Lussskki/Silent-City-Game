@@ -182,6 +182,16 @@
 [ext_resource type="Texture2D" uid="uid://d2oa3ycfyoh0s" path="res://Player/player_assets/PNG Sequences/Throwing in The Air/0_Golem_Throwing in The Air_011.png" id="141_hvi37"]
 [ext_resource type="PackedScene" uid="uid://cn6lexualcspm" path="res://Scripts/kill_zone.tscn" id="179_ajgh3"]
 [ext_resource type="PackedScene" uid="uid://b23uposlagew" path="res://Scenes/Mobile_Controls.tscn" id="182_xxmk3"]
+[ext_resource type="AudioStream" uid="uid://bli5nb7pcuouy" path="res://resources/background_voice/Calima - Usual Rigmarole (freetouse.com).mp3" id="183_music"]
+[ext_resource type="Script" uid="uid://bk7uqtjciootn" path="res://Scripts/background_music.gd" id="184_music_script"]
+[ext_resource type="AudioStream" uid="uid://cc4bk6fml4q3f" path="res://resources/character_voices/30_Jump_03.wav" id="185_jump_sound"]
+[ext_resource type="AudioStream" uid="uid://c08ej7uefog0c" path="res://resources/character_voices/03_Step_grass_03.wav" id="186_run_sound"]
+[ext_resource type="AudioStream" uid="uid://mwsvtdp6gbby" path="res://resources/character_voices/56_Attack_03.wav" id="187_attack_sound"]
+[ext_resource type="AudioStream" uid="uid://6qw52k8gxjdf" path="res://resources/character_voices/61_Hit_03.wav" id="188_kick_sound"]
+[ext_resource type="AudioStream" uid="uid://hkeohtkqk5ti" path="res://resources/character_voices/88_Teleport_02.wav" id="189_shoot_sound"]
+[ext_resource type="PackedScene" path="res://Enemies/enemy.tscn" id="190_enemy"]
+[ext_resource type="Script" path="res://Enemies/enemy_spawner.gd" id="191_enemy_spawner"]
+[ext_resource type="Script" path="res://Scripts/player_hud.gd" id="192_player_hud"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kln2b"]
 texture = ExtResource("2_idj7w")
@@ -2597,6 +2607,11 @@ position = Vector2(300, 400)
 rotation = -0.89884454
 scale = Vector2(34, 34)
 script = ExtResource("3_kln2b")
+jump_sound = ExtResource("185_jump_sound")
+run_sound = ExtResource("186_run_sound")
+attack_sound = ExtResource("187_attack_sound")
+kick_sound = ExtResource("188_kick_sound")
+shoot_sound = ExtResource("189_shoot_sound")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1734310179]
 z_index = 10
@@ -2607,9 +2622,9 @@ shape = SubResource("CapsuleShape2D_xxmk3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1082201992]
 z_index = 10
-position = Vector2(3.2604024, 4.6525354)
+position = Vector2(3.388266, 4.641776)
 rotation = 0.9075712
-scale = Vector2(0.0069094906, 0.0055647152)
+scale = Vector2(0.0067533962, 0.005803342)
 sprite_frames = SubResource("SpriteFrames_cmnmx")
 animation = &"Idle"
 
@@ -2619,8 +2634,12 @@ limit_smoothed = true
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("191_enemy_spawner")
+enemy_scene = ExtResource("190_enemy")
+
 [node name="Background" type="Sprite2D" parent="." unique_id=1291894003]
-position = Vector2(61.000004, 1161.0001)
+position = Vector2(60.999996, 1146)
 scale = Vector2(3.658, 3.290409)
 texture = ExtResource("1_r150o")
 
@@ -2711,4 +2730,31 @@ position = Vector2(0, 1419)
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="KillZone" unique_id=2124429861]
 shape = SubResource("WorldBoundaryShape2D_xatm3")
 
+[node name="PlayerHUD" type="CanvasLayer" parent="."]
+layer = 25
+script = ExtResource("192_player_hud")
+
+[node name="HealthBar" type="ProgressBar" parent="PlayerHUD"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 224.0
+offset_bottom = 46.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="PlayerHUD"]
+offset_left = 28.0
+offset_top = 48.0
+offset_right = 180.0
+offset_bottom = 76.0
+theme_override_font_sizes/font_size = 22
+text = "Life: 100"
+
 [node name="MobileControls" parent="." unique_id=1573542207 instance=ExtResource("182_xxmk3")]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=970133876]
+stream = ExtResource("183_music")
+volume_db = -18.0
+autoplay = true
+script = ExtResource("184_music_script")
