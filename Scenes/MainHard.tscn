@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Main.tscn" id="1_main"]
+[ext_resource type="Script" path="res://Scripts/hard_level.gd" id="2_builder"]
+[ext_resource type="Texture2D" path="res://Sprites/Tiles/Forbidden_Graveyard_2D_Platformer_Tileset_Platformer - Spike.png" id="5_spike"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/Crate.png" id="6_crate"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/TombStone (2).png" id="7_tomb_a"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/TombStone (1).png" id="8_tomb_b"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/Tree.png" id="9_tree"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/Bush (1).png" id="10_bush"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/DeadBush.png" id="11_dead_bush"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/Skeleton.png" id="12_skeleton"]
+[ext_resource type="Texture2D" path="res://Sprites/Objects/Sign.png" id="13_sign"]
+[ext_resource type="Script" path="res://Scripts/deadly_hazard.gd" id="14_hazard"]
+
+[node name="MainHard" instance=ExtResource("1_main")]
+
+[node name="Ground" parent="." index="0"]
+position = Vector2(0, 5000)
+
+[node name="Player" parent="." index="1"]
+position = Vector2(260, 410)
+
+[node name="Camera2D" parent="Player" index="2"]
+limit_right = 3600
+
+[node name="EnemySpawner" parent="." index="3"]
+spawn_count = 5
+spawn_areas = Array[Rect2]([Rect2(700, 315, 140, 1), Rect2(1100, 195, 140, 1), Rect2(1470, 365, 120, 1), Rect2(1850, 175, 220, 1), Rect2(3150, 235, 180, 1)])
+
+[node name="Background" parent="." index="4"]
+position = Vector2(1650, 500)
+scale = Vector2(4.8, 3.35)
+
+[node name="Head_Bone1" parent="." index="5"]
+visible = false
+
+[node name="Bones" parent="." index="6"]
+visible = false
+
+[node name="Head" parent="." index="7"]
+visible = false
+
+[node name="Skeleton" parent="." index="8"]
+visible = false
+
+[node name="Tree" parent="." index="9"]
+visible = false
+
+[node name="Tree2" parent="." index="10"]
+visible = false
+
+[node name="Arrow" parent="." index="11"]
+visible = false
+
+[node name="Bush" parent="." index="12"]
+visible = false
+
+[node name="Crate" parent="." index="13"]
+visible = false
+
+[node name="Tombstone" parent="." index="14"]
+visible = false
+
+[node name="Tombstone2" parent="." index="15"]
+visible = false
+
+[node name="Sprite2D3" parent="." index="16"]
+visible = false
+
+[node name="Deadbush" parent="." index="17"]
+visible = false
+
+[node name="DeadbushHazard" parent="." index="18"]
+position = Vector2(2040, 6044)
+
+[node name="Deadbush2" parent="." index="19"]
+visible = false
+
+[node name="DeadbushHazard2" parent="." index="20"]
+position = Vector2(2215, 6051)
+
+[node name="Crate2" parent="." index="21"]
+visible = false
+
+[node name="Crate3" parent="." index="22"]
+visible = false
+
+[node name="ArrowSign" parent="." index="23"]
+visible = false
+
+[node name="HardLevel" type="Node2D" parent="." index="24"]
+z_index = 9
+script = ExtResource("2_builder")
+spike_texture = ExtResource("5_spike")
+crate_texture = ExtResource("6_crate")
+tombstone_a_texture = ExtResource("7_tomb_a")
+tombstone_b_texture = ExtResource("8_tomb_b")
+tree_texture = ExtResource("9_tree")
+bush_texture = ExtResource("10_bush")
+dead_bush_texture = ExtResource("11_dead_bush")
+skeleton_texture = ExtResource("12_skeleton")
+sign_texture = ExtResource("13_sign")
+hazard_script = ExtResource("14_hazard")

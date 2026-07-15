@@ -33,6 +33,8 @@ var walk_textures: Array[Texture2D] = []
 var attack_texture: Texture2D
 var hurt_texture: Texture2D
 var flip_direction := false
+var network_sync_timer := 0.0
+var current_pose := "idle"
 
 func _ready() -> void:
 	add_to_group("Enemy")
@@ -47,11 +49,14 @@ func _physics_process(delta: float) -> void:
 	if dead:
 		return
 
+	var api := get_multiplayer()
+	if api and api.has_multiplayer_peer() and not api.is_server():
+		return
+
 	attack_timer = max(attack_timer - delta, 0.0)
 	hurt_timer = max(hurt_timer - delta, 0.0)
 
-	if not player:
-		_find_player()
+	_find_player()
 
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -79,10 +84,16 @@ func _physics_process(delta: float) -> void:
 		_show_idle_pose()
 
 	move_and_slide()
+	_send_network_state(delta)
 
 
 func take_damage(amount: int) -> void:
 	if dead:
+		return
+
+	var api := get_multiplayer()
+	if api and api.has_multiplayer_peer() and not api.is_server():
+		rpc_id(1, "network_take_damage", amount)
 		return
 
 	life = max(life - amount, 0)
@@ -103,8 +114,35 @@ func get_hit_position() -> Vector2:
 	return sprite.global_position
 
 
+@rpc("any_peer", "reliable")
+func network_take_damage(amount: int) -> void:
+	var api := get_multiplayer()
+	if api and api.has_multiplayer_peer() and not api.is_server():
+		return
+	take_damage(amount)
+
+
 func _find_player() -> void:
-	player = get_tree().get_first_node_in_group("Player") as Node2D
+	var closest_player: Node2D
+	var closest_distance := INF
+	for candidate in get_tree().get_nodes_in_group("Player"):
+		if not candidate is Node2D:
+			continue
+		if candidate is CanvasItem and not candidate.visible:
+			continue
+		if candidate.get("dead") == true:
+			continue
+
+		var candidate_position: Vector2 = candidate.global_position
+		if candidate.has_method("get_hit_position"):
+			candidate_position = candidate.get_hit_position()
+
+		var distance := get_hit_position().distance_to(candidate_position)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_player = candidate
+
+	player = closest_player
 
 
 func _try_attack_player() -> void:
@@ -117,8 +155,21 @@ func _try_attack_player() -> void:
 
 	attack_timer = attack_cooldown
 	_show_attack_pose()
-	if player and player.has_method("take_damage"):
-		player.take_damage(attack_damage)
+	_damage_player(player, attack_damage)
+
+
+func _damage_player(target: Node, amount: int) -> void:
+	if not target or not target.has_method("take_damage"):
+		return
+
+	var api := get_multiplayer()
+	if api and api.has_multiplayer_peer():
+		var target_peer_id := int(target.get("network_player_id"))
+		if target_peer_id != api.get_unique_id() and target.has_method("network_take_damage"):
+			target.rpc_id(target_peer_id, "network_take_damage", amount)
+			return
+
+	target.take_damage(amount)
 
 
 func _try_take_player_hit(distance: float) -> void:
@@ -160,7 +211,10 @@ func _die() -> void:
 	dead = true
 	velocity = Vector2.ZERO
 	set_physics_process(false)
+	current_pose = "dead"
 	modulate = Color(0.35, 0.35, 0.35, 0.75)
+	if _is_network_server():
+		rpc("_network_enemy_died")
 	await get_tree().create_timer(0.35).timeout
 	queue_free()
 
@@ -189,6 +243,7 @@ func _setup_random_character() -> void:
 func _show_idle_pose() -> void:
 	if attack_timer > attack_cooldown - 0.18:
 		return
+	current_pose = "idle"
 	if idle_texture and sprite.texture != idle_texture:
 		sprite.texture = idle_texture
 
@@ -199,16 +254,72 @@ func _show_walk_pose() -> void:
 	if walk_textures.is_empty():
 		return
 
+	current_pose = "walk"
 	var index := int(Time.get_ticks_msec() / 220) % walk_textures.size()
 	if walk_textures[index]:
 		sprite.texture = walk_textures[index]
 
 
 func _show_attack_pose() -> void:
+	current_pose = "attack"
 	if attack_texture:
 		sprite.texture = attack_texture
 
 
 func _show_hurt_pose() -> void:
+	current_pose = "hurt"
 	if hurt_texture:
 		sprite.texture = hurt_texture
+
+
+func _send_network_state(delta: float) -> void:
+	if not _is_network_server():
+		return
+
+	network_sync_timer -= delta
+	if network_sync_timer > 0.0:
+		return
+
+	network_sync_timer = 0.1
+	rpc("_receive_network_state", global_position, velocity, sprite.flip_h, life, current_pose)
+
+
+@rpc("authority", "unreliable")
+func _receive_network_state(remote_position: Vector2, remote_velocity: Vector2, remote_flip_h: bool, remote_life: int, remote_pose: String) -> void:
+	var api := get_multiplayer()
+	if not api or not api.has_multiplayer_peer() or api.is_server():
+		return
+
+	global_position = global_position.lerp(remote_position, 0.65)
+	velocity = remote_velocity
+	sprite.flip_h = remote_flip_h
+	life = remote_life
+	current_pose = remote_pose
+	_update_health_bar()
+	_apply_pose(remote_pose)
+
+
+@rpc("authority", "reliable")
+func _network_enemy_died() -> void:
+	if _is_network_server():
+		return
+	queue_free()
+
+
+func _apply_pose(pose: String) -> void:
+	match pose:
+		"walk":
+			_show_walk_pose()
+		"attack":
+			_show_attack_pose()
+		"hurt":
+			_show_hurt_pose()
+		"dead":
+			modulate = Color(0.35, 0.35, 0.35, 0.75)
+		_:
+			_show_idle_pose()
+
+
+func _is_network_server() -> bool:
+	var api := get_multiplayer()
+	return api and api.has_multiplayer_peer() and api.is_server()
