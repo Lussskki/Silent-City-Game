@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_player_script"]
+[ext_resource type="SpriteFrames" path="res://resources/golem_sprite_frames.tres" id="2_golem_frames"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_golem"]
+radius = 0.58
+height = 1.62
+
+[node name="SecondPlayer" type="CharacterBody2D"]
+position = Vector2(420, 400)
+rotation = -0.89884454
+scale = Vector2(34, 34)
+script = ExtResource("1_player_script")
+local_player = false
+network_player_id = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 10
+position = Vector2(3.6181812, 4.722393)
+rotation = 0.89011794
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("CapsuleShape2D_golem")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+position = Vector2(3.388266, 4.641776)
+rotation = 0.9075712
+scale = Vector2(0.0067533962, 0.005803342)
+sprite_frames = ExtResource("2_golem_frames")
+animation = &"Idle"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+limit_bottom = 1687
+limit_smoothed = true
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
