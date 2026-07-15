@@ -4,9 +4,10 @@ This project is a small 2D platformer being developed in Godot Engine. The game 
 
 ## Current Status
 
-- WIP Godot platformer project.
+- WIP Godot platformer project named Silent City.
 - Android/mobile testing is now supported.
 - Xbox-style on-screen mobile controls are available.
+- A main menu, character selection screen, and WIFI room flow are in progress.
 - The player has movement, jump, run, attack, kick, throw, health, death, and restart behavior.
 - Enemies spawn around the level, use random character skins, chase the player, fight, and have 100 life.
 - Background music and character sound effects are now connected in-game.
@@ -26,6 +27,7 @@ This project is a small 2D platformer being developed in Godot Engine. The game 
 - Fixed the restart bug where enemies entering the kill zone could restart the game.
 - Fixed combat range so attacks only work when close and facing the enemy.
 - Built Android debug APKs for testing.
+- Added the Silent City main menu, character selection, and WIFI room screens.
 
 ## Screenshots
 
@@ -62,6 +64,18 @@ This shows the player fighting an enemy in the mobile layout. The enemy has a re
 ![Player life HUD](Screenshots/6.png)
 
 The player life display shows the current health value and a small health bar. It starts at 100 and decreases when enemies hit the player.
+
+![Silent City main menu](Screenshots/7.png)
+
+The new main menu uses the Silent City title screen with Start, Choose Character, WIFI Room, Exit, and language controls.
+
+![Character selection screen](Screenshots/8.png)
+
+The character selection screen lets the player choose between Ash Golem and Stone Golem before starting the game or entering a WIFI room.
+
+![WIFI room tutorial and search](Screenshots/9.png)
+
+The WIFI room screen is used for local multiplayer testing. It includes room discovery, host/join controls, and a short tutorial panel.
 
 ## Audio
 
