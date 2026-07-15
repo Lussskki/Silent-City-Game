@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="Silent City"
-run/main_scene="uid://dc5twteeprf02"
+run/main_scene="res://Scenes/MainMenu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/bg_color=Color(0.03, 0.05, 0.06, 1)
+boot_splash/image="res://Sprites/Splash/silent_city_mobile_splash.png"
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameSettings="*res://Scripts/game_settings.gd"
 
 [display]
 
